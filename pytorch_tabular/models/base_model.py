@@ -148,7 +148,8 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                     _metrics.append(_metric)
                 avg_metric = torch.stack(_metrics, dim=0).sum()
             else:
-                avg_metric = metric(y_hat.squeeze(), y.squeeze(), **metric_params)
+                y_hat_probs = torch.softmax(y_hat, dim=-1)
+                avg_metric = metric(y_hat_probs.squeeze(), y.squeeze(), **metric_params)
             metrics.append(avg_metric)
             self.log(
                 f"{tag}_{metric_str}",
