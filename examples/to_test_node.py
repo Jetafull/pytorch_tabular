@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 """Tests for `pytorch_tabular` package."""
 
+import numpy as np
+import pandas as pd
+from sklearn.datasets import fetch_california_housing, fetch_covtype
+
 from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
 from pytorch_tabular.models.node import NodeConfig
 from pytorch_tabular.models.tabnet import TabNetModelConfig
 from pytorch_tabular.tabular_model import TabularModel
-
-import numpy as np
-import pandas as pd
-from sklearn.datasets import fetch_california_housing, fetch_covtype
 
 
 def regression_data():
@@ -56,12 +56,16 @@ def test_regression(
             continuous_feature_transform=continuous_feature_transform,
             normalize_continuous_features=normalize_continuous_features,
         )
-        model_config_params = dict(task="regression", depth=2, embed_categorical=embed_categorical)
+        model_config_params = dict(
+            task="regression", depth=2, embed_categorical=embed_categorical
+        )
         model_config = NodeConfig(**model_config_params)
         # model_config_params = dict(task="regression")
         # model_config = NodeConfig(**model_config_params)
-        
-        trainer_config = TrainerConfig(max_epochs=1, checkpoints=None, early_stopping=None)
+
+        trainer_config = TrainerConfig(
+            max_epochs=1, checkpoints=None, early_stopping=None
+        )
         optimizer_config = OptimizerConfig()
 
         tabular_model = TabularModel(
@@ -100,9 +104,13 @@ def test_classification(
             continuous_feature_transform=continuous_feature_transform,
             normalize_continuous_features=normalize_continuous_features,
         )
-        model_config_params = dict(task="classification", depth=2, embed_categorical=embed_categorical)
+        model_config_params = dict(
+            task="classification", depth=2, embed_categorical=embed_categorical
+        )
         model_config = NodeConfig(**model_config_params)
-        trainer_config = TrainerConfig(max_epochs=1, checkpoints=None, early_stopping=None)
+        trainer_config = TrainerConfig(
+            max_epochs=1, checkpoints=None, early_stopping=None
+        )
         optimizer_config = OptimizerConfig()
 
         tabular_model = TabularModel(

@@ -3,10 +3,15 @@
 
 import pytest
 
-from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
-from pytorch_tabular.models import MixtureDensityHeadConfig, CategoryEmbeddingMDNConfig, NODEMDNConfig, AutoIntMDNConfig
 from pytorch_tabular import TabularModel
 from pytorch_tabular.categorical_encoders import CategoricalEmbeddingTransformer
+from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
+from pytorch_tabular.models import (
+    AutoIntMDNConfig,
+    CategoryEmbeddingMDNConfig,
+    MixtureDensityHeadConfig,
+    NODEMDNConfig,
+)
 
 
 @pytest.mark.parametrize("multi_target", [False])
@@ -26,7 +31,9 @@ from pytorch_tabular.categorical_encoders import CategoricalEmbeddingTransformer
 @pytest.mark.parametrize("categorical_cols", [["HouseAgeBin"]])
 @pytest.mark.parametrize("continuous_feature_transform", [None])
 @pytest.mark.parametrize("normalize_continuous_features", [True])
-@pytest.mark.parametrize("variant", [CategoryEmbeddingMDNConfig, NODEMDNConfig, AutoIntMDNConfig])
+@pytest.mark.parametrize(
+    "variant", [CategoryEmbeddingMDNConfig, NODEMDNConfig, AutoIntMDNConfig]
+)
 @pytest.mark.parametrize("num_gaussian", [1, 2])
 def test_regression(
     regression_data,
@@ -36,7 +43,7 @@ def test_regression(
     continuous_feature_transform,
     normalize_continuous_features,
     variant,
-    num_gaussian
+    num_gaussian,
 ):
     (train, test, target) = regression_data
     if len(continuous_cols) + len(categorical_cols) == 0:
@@ -51,10 +58,14 @@ def test_regression(
         )
         model_config_params = dict(task="regression")
         mdn_config = MixtureDensityHeadConfig(num_gaussian=num_gaussian)
-        model_config_params['mdn_config'] = mdn_config
+        model_config_params["mdn_config"] = mdn_config
         model_config = variant(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=3, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=3,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
 
@@ -90,7 +101,7 @@ def test_classification(
     categorical_cols,
     continuous_feature_transform,
     normalize_continuous_features,
-    num_gaussian
+    num_gaussian,
 ):
     (train, test, target) = classification_data
     if len(continuous_cols) + len(categorical_cols) == 0:
@@ -105,10 +116,14 @@ def test_classification(
         )
         model_config_params = dict(task="classification")
         mdn_config = MixtureDensityHeadConfig(num_gaussian=num_gaussian)
-        model_config_params['mdn_config'] = mdn_config
+        model_config_params["mdn_config"] = mdn_config
         model_config = CategoryEmbeddingMDNConfig(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=3, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=3,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
         with pytest.raises(AssertionError):
@@ -120,11 +135,12 @@ def test_classification(
             )
             tabular_model.fit(train=train, test=test)
 
+
 # import numpy as np
 # import pandas as pd
 # from sklearn.datasets import fetch_california_housing, fetch_covtype
 
- 
+
 # def regression_data():
 #     dataset = fetch_california_housing(data_home="data", as_frame=True)
 #     df = dataset.frame.sample(5000)

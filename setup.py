@@ -2,7 +2,8 @@
 
 """The setup script."""
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 
 def read_requirements(thelibFolder, filename):
@@ -57,7 +58,7 @@ setup(
     # setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
-    url="https://github.com/manujosephv/pytorch_tabular",
+    # url="https://github.com/manujosephv/pytorch_tabular",
     version="0.5.0",
     zip_safe=False,
 )

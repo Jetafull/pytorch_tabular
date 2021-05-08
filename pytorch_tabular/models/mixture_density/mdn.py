@@ -378,7 +378,7 @@ class CategoryEmbeddingMDN(BaseMDN):
 class NODEMDN(BaseMDN):
     def __init__(self, config: DictConfig, **kwargs):
         super().__init__(config, **kwargs)
-    
+
     def subset(self, x):
         return x[..., :].mean(dim=-2)
 

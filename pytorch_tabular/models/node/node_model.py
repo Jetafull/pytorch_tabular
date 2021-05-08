@@ -60,9 +60,9 @@ class NODEModel(BaseModel):
         if config.embed_categorical:
             self.embedding_cat_dim = sum([y for x, y in config.embedding_dims])
         super().__init__(config, **kwargs)
-    
+
     def subset(self, x):
-            return x[..., : self.hparams.output_dim].mean(dim=-2)
+        return x[..., : self.hparams.output_dim].mean(dim=-2)
 
     def _build_network(self):
         if self.hparams.embed_categorical:

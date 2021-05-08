@@ -2,17 +2,19 @@
 # Author: Manu Joseph <manujoseph@gmail.com>
 # For license information, see LICENSE.TXT
 """Config"""
+import os
 from dataclasses import MISSING, dataclass, field
 from typing import List, Optional, Tuple
-import os
+
 from omegaconf import OmegaConf
 
 # from omegaconf.dictconfig import DictConfig
 
 
 def _read_yaml(filename):
-    import yaml
     import re
+
+    import yaml
 
     loader = yaml.SafeLoader
     loader.add_implicit_resolver(
@@ -301,7 +303,7 @@ class TrainerConfig:
         default=None,
         metadata={
             "help": "The name under which the models will be saved. If left blank, first it will look for `run_name` in experiment_config and if that is also None then it will use a generic name like task_version."
-        }
+        },
     )
     checkpoints_mode: str = field(
         default="min",
@@ -402,12 +404,12 @@ class ExperimentConfig:
 class OptimizerConfig:
     """Optimizer and Learning Rate Scheduler configuration.
     Args:
-        optimizer (str): Any of the standard optimizers from 
+        optimizer (str): Any of the standard optimizers from
             [torch.optim](https://pytorch.org/docs/stable/optim.html#algorithms). Defaults to `Adam`"
 
         optimizer_params (dict): The parameters for the optimizer. If left blank, will use default parameters.
 
-        lr_scheduler (Union[str, NoneType]): The name of the LearningRateScheduler to use, if any, from [torch.optim.lr_scheduler](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate). 
+        lr_scheduler (Union[str, NoneType]): The name of the LearningRateScheduler to use, if any, from [torch.optim.lr_scheduler](https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate).
             If None, will not use any scheduler. Defaults to `None`
 
         lr_scheduler_params (Union[dict, NoneType]): The parameters for the LearningRateScheduler. If left blank, will use default parameters.
@@ -417,7 +419,9 @@ class OptimizerConfig:
 
     optimizer: str = field(
         default="Adam",
-        metadata={"help": "Any of the standard optimizers from [torch.optim](https://pytorch.org/docs/stable/optim.html#algorithms)."},
+        metadata={
+            "help": "Any of the standard optimizers from [torch.optim](https://pytorch.org/docs/stable/optim.html#algorithms)."
+        },
     )
     optimizer_params: dict = field(
         default_factory=lambda: {"weight_decay": 0, "amsgrad": False},

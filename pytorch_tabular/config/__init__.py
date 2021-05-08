@@ -1,10 +1,10 @@
 from .config import (
-    TrainerConfig,
     DataConfig,
-    ModelConfig,
     ExperimentConfig,
-    OptimizerConfig,
     ExperimentRunManager,
+    ModelConfig,
+    OptimizerConfig,
+    TrainerConfig,
     _validate_choices,
 )
 

@@ -450,7 +450,7 @@ class TabularDatamodule(pl.LightningDataModule):
         return df, added_features
 
     def train_dataloader(self, batch_size: Optional[int] = None) -> DataLoader:
-        """ Function that loads the train set. """
+        """Function that loads the train set."""
         dataset = TabularDataset(
             task=self.config.task,
             data=self.train,
@@ -468,7 +468,7 @@ class TabularDatamodule(pl.LightningDataModule):
         )
 
     def val_dataloader(self) -> DataLoader:
-        """ Function that loads the validation set. """
+        """Function that loads the validation set."""
         dataset = TabularDataset(
             task=self.config.task,
             data=self.validation,
@@ -482,7 +482,7 @@ class TabularDatamodule(pl.LightningDataModule):
         )
 
     def test_dataloader(self) -> DataLoader:
-        """ Function that loads the validation set. """
+        """Function that loads the validation set."""
         if self.test is not None:
             dataset = TabularDataset(
                 task=self.config.task,

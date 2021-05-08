@@ -16,7 +16,13 @@ from pytorch_tabular.models import (
 
 MODEL_CONFIG_SAVE_TEST = [
     (CategoryEmbeddingModelConfig, dict(layers="10-20")),
-    (AutoIntConfig, dict(num_heads=1,num_attn_blocks=1,)),
+    (
+        AutoIntConfig,
+        dict(
+            num_heads=1,
+            num_attn_blocks=1,
+        ),
+    ),
     (NodeConfig, dict(num_trees=100, depth=2)),
     (TabNetModelConfig, dict(n_a=2, n_d=2)),
 ]
@@ -69,7 +75,7 @@ def test_save_load(
         categorical_cols=categorical_cols,
     )
     model_config_class, model_config_params = model_config_class
-    model_config_params['task']="regression"
+    model_config_params["task"] = "regression"
     model_config = model_config_class(**model_config_params)
     trainer_config = TrainerConfig(
         max_epochs=3, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True

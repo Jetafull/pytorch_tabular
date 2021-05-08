@@ -13,7 +13,7 @@ from .utils import ModuleWithInit, sparsemax, sparsemoid
 
 
 def check_numpy(x):
-    """ Makes sure x is a numpy array """
+    """Makes sure x is a numpy array"""
     if isinstance(x, torch.Tensor):
         x = x.detach().cpu().numpy()
     x = np.asarray(x)

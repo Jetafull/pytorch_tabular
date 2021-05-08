@@ -103,6 +103,8 @@ def sparsemax(input, dim=-1):
 
 def sparsemoid(input):
     return (0.5 * input + 0.5).clamp_(0, 1)
+
+
 # sparsemax = lambda input, dim=-1: SparsemaxFunction.apply(input, dim)
 # sparsemoid = lambda input: (0.5 * input + 0.5).clamp_(0, 1)
 
@@ -159,7 +161,7 @@ class Entmax15Function(Function):
 
 
 class Entmoid15(Function):
-    """ A highly optimized equivalent of labda x: Entmax15([x, 0]) """
+    """A highly optimized equivalent of labda x: Entmax15([x, 0])"""
 
     @staticmethod
     def forward(ctx, input):
@@ -192,6 +194,8 @@ class Entmoid15(Function):
 
 def entmax15(input, dim=-1):
     return Entmax15Function.apply(input, dim)
+
+
 # entmax15 = lambda input, dim=-1: Entmax15Function.apply(input, dim)
 entmoid15 = Entmoid15.apply
 
@@ -206,7 +210,7 @@ class Lambda(nn.Module):
 
 
 class ModuleWithInit(nn.Module):
-    """ Base class for pytorch module with data-aware initializer on first batch """
+    """Base class for pytorch module with data-aware initializer on first batch"""
 
     def __init__(self):
         super().__init__()
@@ -220,7 +224,7 @@ class ModuleWithInit(nn.Module):
         # please DO NOT use these flags in child modules
 
     def initialize(self, *args, **kwargs):
-        """ initialize module tensors using first batch of data """
+        """initialize module tensors using first batch of data"""
         raise NotImplementedError("Please implement ")
 
     def __call__(self, *args, **kwargs):

@@ -2,10 +2,10 @@ torch>=1.3
 category-encoders==2.2.2
 numpy>=1.16.6
 pandas==1.1.5
-scikit-learn==0.23.2
+scikit-learn==0.24.2
 # pytorch-lightning==1.0.8 #works well with wandb
 pytorch-lightning==1.3.0
-omegaconf==2.0.5
+omegaconf==2.0.6
 tensorboard>=2.2.0, <2.5.0
 pytorch-tabnet==3.0.0
 PyYAML>=5.1  # OmegaConf requirement >=5.1

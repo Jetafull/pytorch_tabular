@@ -9,6 +9,7 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from omegaconf import DictConfig
+
 from pytorch_tabular.utils import _initialize_layers, _linear_dropout_bn
 
 from ..base_model import BaseModel
@@ -70,7 +71,7 @@ class CategoryEmbeddingModel(BaseModel):
             self.backbone.output_dim, self.hparams.output_dim
         )  # output_dim auto-calculated from other config
         _initialize_layers(self.hparams, self.output_layer)
-    
+
     def unpack_input(self, x: Dict):
         continuous_data, categorical_data = x["continuous"], x["categorical"]
         if self.embedding_cat_dim != 0:

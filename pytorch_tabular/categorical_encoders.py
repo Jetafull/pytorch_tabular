@@ -4,6 +4,7 @@
 # Modified https://github.com/tcassou/mlencoders/blob/master/mlencoders/base_encoder.py to suit NN encoding
 """Category Encoders"""
 from __future__ import absolute_import, division, print_function, unicode_literals
+
 from typing import List
 
 try:
@@ -13,8 +14,8 @@ except ImportError:
 
 import numpy as np
 import pandas as pd
-from tqdm.autonotebook import tqdm
 from sklearn.base import BaseEstimator, TransformerMixin
+from tqdm.autonotebook import tqdm
 
 NAN_CATEGORY = 0
 
@@ -193,12 +194,14 @@ class CategoricalEmbeddingTransformer(BaseEstimator, TransformerMixin):
             raise ValueError(
                 "Passed model should either have an attribute `embeddng_layers` or a method `extract_embedding` defined for `transform`."
             )
-        assert all(
-            c in X.columns for c in self.cols
-        )
+        assert all(c in X.columns for c in self.cols)
 
         X_encoded = X.copy(deep=True)
-        for col, mapping in tqdm(self._mapping.items(), desc="Encoding the data...", total=len(self._mapping.values())):
+        for col, mapping in tqdm(
+            self._mapping.items(),
+            desc="Encoding the data...",
+            total=len(self._mapping.values()),
+        ):
             for dim in range(mapping[self.NAN_CATEGORY].shape[0]):
                 X_encoded.loc[:, f"{col}_embed_dim_{dim}"] = (
                     X_encoded[col]
@@ -209,9 +212,7 @@ class CategoricalEmbeddingTransformer(BaseEstimator, TransformerMixin):
                 X_encoded[f"{col}_embed_dim_{dim}"].fillna(
                     mapping[self.NAN_CATEGORY][dim], inplace=True
                 )
-        X_encoded.drop(
-            columns=self.cols, inplace=True
-        )
+        X_encoded.drop(columns=self.cols, inplace=True)
         return X_encoded
 
     def fit_transform(self, X: pd.DataFrame, y=None):

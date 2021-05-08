@@ -1,6 +1,11 @@
-from pytorch_tabular.models.node.config import NodeConfig
+import pandas as pd
+import pytorch_lightning as pl
+import torch
+from omegaconf import OmegaConf
 from sklearn.datasets import fetch_california_housing
+from sklearn.preprocessing import PowerTransformer
 from torch.utils import data
+
 from pytorch_tabular.config import (
     DataConfig,
     ExperimentConfig,
@@ -9,16 +14,7 @@ from pytorch_tabular.config import (
     OptimizerConfig,
     TrainerConfig,
 )
-from pytorch_tabular.models.category_embedding.config import (
-    CategoryEmbeddingModelConfig,
-)
-from pytorch_tabular.models import AutoIntModel, AutoIntConfig
-
-from pytorch_tabular.models.mixture_density import (
-    CategoryEmbeddingMDNConfig,
-    MixtureDensityHeadConfig,
-    NODEMDNConfig,
-)
+from pytorch_tabular.models import AutoIntConfig, AutoIntModel
 
 # from pytorch_tabular.models.deep_gmm import (
 #     DeepGaussianMixtureModelConfig,
@@ -26,13 +22,17 @@ from pytorch_tabular.models.mixture_density import (
 from pytorch_tabular.models.category_embedding.category_embedding_model import (
     CategoryEmbeddingModel,
 )
-import pandas as pd
-from omegaconf import OmegaConf
+from pytorch_tabular.models.category_embedding.config import (
+    CategoryEmbeddingModelConfig,
+)
+from pytorch_tabular.models.mixture_density import (
+    CategoryEmbeddingMDNConfig,
+    MixtureDensityHeadConfig,
+    NODEMDNConfig,
+)
+from pytorch_tabular.models.node.config import NodeConfig
 from pytorch_tabular.tabular_datamodule import TabularDatamodule
 from pytorch_tabular.tabular_model import TabularModel
-import pytorch_lightning as pl
-from sklearn.preprocessing import PowerTransformer
-import torch
 
 dataset = fetch_california_housing(data_home="data", as_frame=True)
 dataset.frame["HouseAgeBin"] = pd.qcut(dataset.frame["HouseAge"], q=4)

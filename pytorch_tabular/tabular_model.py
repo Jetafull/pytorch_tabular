@@ -2,9 +2,9 @@
 # Author: Manu Joseph <manujoseph@gmail.com>
 # For license information, see LICENSE.TXT
 """Tabular Model"""
-from collections import defaultdict
 import logging
 import os
+from collections import defaultdict
 from typing import Callable, Dict, Iterable, List, Optional, Tuple, Union
 
 import joblib
@@ -763,19 +763,18 @@ class TabularModel:
         custom_params = joblib.load(os.path.join(dir, "custom_params.sav"))
         model_args = {}
         if custom_params.get("custom_loss") is not None:
-            model_args['loss'] = "MSELoss"
+            model_args["loss"] = "MSELoss"
         if custom_params.get("custom_metrics") is not None:
-            model_args['metrics'] = ["mean_squared_error"]
-            model_args['metric_params'] = [{}]
+            model_args["metrics"] = ["mean_squared_error"]
+            model_args["metric_params"] = [{}]
         if custom_params.get("custom_optimizer") is not None:
-            model_args['optimizer'] = "Adam"
+            model_args["optimizer"] = "Adam"
         if custom_params.get("custom_optimizer_params") is not None:
-            model_args['optimizer_params'] = {}
-        
+            model_args["optimizer_params"] = {}
+
         # Initializing with default metrics, losses, and optimizers. Will revert once initialized
         model = model_callable.load_from_checkpoint(
-            checkpoint_path=os.path.join(dir, "model.ckpt"),
-            **model_args
+            checkpoint_path=os.path.join(dir, "model.ckpt"), **model_args
         )
         # else:
         #     # Initializing with default values

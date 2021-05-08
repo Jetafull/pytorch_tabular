@@ -1,5 +1,10 @@
-from .mdn import MixtureDensityHead, CategoryEmbeddingMDN, NODEMDN, BaseMDN, AutoIntMDN
-from .config import MixtureDensityHeadConfig, CategoryEmbeddingMDNConfig, NODEMDNConfig, AutoIntMDNConfig
+from .config import (
+    AutoIntMDNConfig,
+    CategoryEmbeddingMDNConfig,
+    MixtureDensityHeadConfig,
+    NODEMDNConfig,
+)
+from .mdn import NODEMDN, AutoIntMDN, BaseMDN, CategoryEmbeddingMDN, MixtureDensityHead
 
 __all__ = [
     "MixtureDensityHead",
@@ -10,5 +15,5 @@ __all__ = [
     "BaseMDN",
     "NODEMDNConfig",
     "AutoIntMDNConfig",
-    "AutoIntMDN"
+    "AutoIntMDN",
 ]

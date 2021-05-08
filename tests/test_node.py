@@ -2,10 +2,10 @@
 """Tests for `pytorch_tabular` package."""
 import pytest
 
-from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
-from pytorch_tabular.models import NodeConfig
 from pytorch_tabular import TabularModel
 from pytorch_tabular.categorical_encoders import CategoricalEmbeddingTransformer
+from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
+from pytorch_tabular.models import NodeConfig
 
 
 @pytest.mark.parametrize("multi_target", [True, False])
@@ -66,7 +66,11 @@ def test_regression(
             model_config_params["target_range"] = _target_range
         model_config = NodeConfig(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=1, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=1,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
 
@@ -121,7 +125,11 @@ def test_classification(
         )
         model_config = NodeConfig(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=1, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=1,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
 

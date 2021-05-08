@@ -3,10 +3,10 @@
 
 import pytest
 
-from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
-from pytorch_tabular.models import AutoIntConfig
 from pytorch_tabular import TabularModel
 from pytorch_tabular.categorical_encoders import CategoricalEmbeddingTransformer
+from pytorch_tabular.config import DataConfig, OptimizerConfig, TrainerConfig
+from pytorch_tabular.models import AutoIntConfig
 
 
 @pytest.mark.parametrize("multi_target", [True, False])
@@ -40,7 +40,7 @@ def test_regression(
     target_range,
     deep_layers,
     batch_norm_continuous_input,
-    attention_pooling
+    attention_pooling,
 ):
     (train, test, target) = regression_data
     if len(continuous_cols) + len(categorical_cols) == 0:
@@ -69,7 +69,11 @@ def test_regression(
         model_config_params["attention_pooling"] = attention_pooling
         model_config = AutoIntConfig(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=3, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=3,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
 
@@ -106,7 +110,7 @@ def test_classification(
     continuous_feature_transform,
     normalize_continuous_features,
     deep_layers,
-    batch_norm_continuous_input
+    batch_norm_continuous_input,
 ):
     (train, test, target) = classification_data
     if len(continuous_cols) + len(categorical_cols) == 0:
@@ -124,7 +128,11 @@ def test_classification(
         model_config_params["batch_norm_continuous_input"] = batch_norm_continuous_input
         model_config = AutoIntConfig(**model_config_params)
         trainer_config = TrainerConfig(
-            max_epochs=3, checkpoints=None, early_stopping=None, gpus=0, fast_dev_run=True
+            max_epochs=3,
+            checkpoints=None,
+            early_stopping=None,
+            gpus=0,
+            fast_dev_run=True,
         )
         optimizer_config = OptimizerConfig()
 
@@ -141,6 +149,7 @@ def test_classification(
         assert "valid_loss" in result[0].keys()
         pred_df = tabular_model.predict(test)
         assert pred_df.shape[0] == test.shape[0]
+
 
 # import numpy as np
 # import pandas as pd

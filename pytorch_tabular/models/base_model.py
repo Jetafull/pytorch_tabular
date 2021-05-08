@@ -9,11 +9,12 @@ from typing import Callable, Dict, List, Optional
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
+import torchmetrics
 from omegaconf import DictConfig
 
 try:
-    import wandb
     import plotly.graph_objects as go
+    import wandb
 
     WANDB_INSTALLED = True
 except ImportError:
@@ -31,14 +32,14 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         custom_metrics: Optional[List[Callable]] = None,
         custom_optimizer: Optional[torch.optim.Optimizer] = None,
         custom_optimizer_params: Dict = {},
-        **kwargs
+        **kwargs,
     ):
         super().__init__()
         self.custom_loss = custom_loss
         self.custom_metrics = custom_metrics
         self.custom_optimizer = custom_optimizer
         self.custom_optimizer_params = custom_optimizer_params
-        #Updating config with custom parameters for experiment tracking
+        # Updating config with custom parameters for experiment tracking
         if self.custom_loss is not None:
             config.loss = str(self.custom_loss)
         if self.custom_metrics is not None:
@@ -73,7 +74,8 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     def _setup_metrics(self):
         if self.custom_metrics is None:
             self.metrics = []
-            task_module = pl.metrics.functional
+            # task_module = pl.metrics.functional
+            task_module = torchmetrics.functional
             for metric in self.hparams.metrics:
                 try:
                     self.metrics.append(getattr(task_module, metric))
@@ -123,8 +125,9 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                 _metrics = []
                 for i in range(self.hparams.output_dim):
                     if (
+                        # metric.__name__ == pl.metrics.functional.mean_squared_log_error.__name__
                         metric.__name__
-                        == pl.metrics.functional.mean_squared_log_error.__name__
+                        == torchmetrics.functional.mean_squared_log_error.__name__
                     ):
                         # MSLE should only be used in strictly positive targets. It is undefined otherwise
                         _metric = metric(
