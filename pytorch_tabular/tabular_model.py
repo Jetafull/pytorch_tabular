@@ -32,6 +32,7 @@ from pytorch_tabular.tabular_datamodule import TabularDatamodule
 
 logger = logging.getLogger(__name__)
 
+TRAINER_GPUS = "gpus"
 
 class TabularModel:
     def __init__(
@@ -326,6 +327,9 @@ class TabularModel:
         trainer_args_config = {
             k: v for k, v in self.config.items() if k in trainer_args
         }
+        # "gpus" not included in vars by default
+        if TRAINER_GPUS not in trainer_args_config and TRAINER_GPUS in self.config:
+            trainer_args_config[TRAINER_GPUS] = self.config[TRAINER_GPUS]
         # For some weird reason, checkpoint_callback is not appearing in the Trainer vars
         trainer_args_config["checkpoint_callback"] = self.config.checkpoint_callback
         self.trainer = pl.Trainer(
