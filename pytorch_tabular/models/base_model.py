@@ -121,7 +121,10 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         for metric, metric_str, metric_params in zip(
             self.metrics, self.hparams.metrics, self.hparams.metrics_params
         ):
-            if (self.hparams.task == "regression") and (self.hparams.output_dim > 1):
+            if self.hparams.task == "classification":
+                y_hat_probs = torch.softmax(y_hat, dim=-1)
+                avg_metric = metric(y_hat_probs.squeeze(), y.squeeze(), **metric_params)
+            elif (self.hparams.task == "regression") and (self.hparams.output_dim > 1):
                 _metrics = []
                 for i in range(self.hparams.output_dim):
                     if (
@@ -148,8 +151,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                     _metrics.append(_metric)
                 avg_metric = torch.stack(_metrics, dim=0).sum()
             else:
-                y_hat_probs = torch.softmax(y_hat, dim=-1)
-                avg_metric = metric(y_hat_probs.squeeze(), y.squeeze(), **metric_params)
+                avg_metric = metric(y_hat.squeeze(), y.squeeze(), **metric_params)
             metrics.append(avg_metric)
             self.log(
                 f"{tag}_{metric_str}",
